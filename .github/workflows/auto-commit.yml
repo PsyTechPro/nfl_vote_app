@@ -3,7 +3,7 @@ name: Auto Commit to Keep Streamlit App Awake
 on:
   schedule:
     - cron: "0 6 * * *" # Runs at 6:00 AM UTC daily
-  workflow_dispatch: # This enables manual triggering
+  workflow_dispatch: # Enables manual triggering
 
 jobs:
   auto-commit:
@@ -19,4 +19,8 @@ jobs:
           git commit --allow-empty -m "Automated empty commit to keep Streamlit app awake"
 
       - name: Push changes
-        run: git push origin main
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git push https://${GH_TOKEN}@github.com/${{ github.repository }}.git main
+
