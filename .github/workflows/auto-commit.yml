@@ -1,0 +1,22 @@
+name: Auto Commit to Keep Streamlit App Awake
+
+on:
+  schedule:
+    # Schedule to run once a day (adjust cron expression if needed)
+    - cron: "0 6 * * *" # Runs at 6:00 AM UTC daily
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create an empty commit
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git commit --allow-empty -m "Automated empty commit to keep Streamlit app awake"
+      
+      - name: Push changes
+        run: git push origin main
